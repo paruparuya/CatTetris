@@ -76,7 +76,7 @@ public class Tetromino : MonoBehaviour
             return;
         }
 
-        if(TryWallKick())
+        if(TryWallKick(angle))
         {
             return;
         }
@@ -101,24 +101,26 @@ public class Tetromino : MonoBehaviour
         return true;
     }
 
-    bool TryWallKick()
+    bool TryWallKick(float angle)
     {
         Vector3[] kicks = new Vector3[]
         {
             new Vector3(1, 0, 0),
             new Vector3(-1, 0, 0),
-            new Vector3(0, -1, 0),
+            new Vector3(0, 1, 0),
 
         };
 
         foreach(Vector3 offset in kicks)
         {
             transform.position += offset;
+            transform.Rotate(0, 0, angle);
 
             if(IsValidPosition())
                 return false;
 
-            transform.position = offset;
+            transform.position -= offset;
+            transform.Rotate(0, 0, -angle);
         }
 
         return true;
